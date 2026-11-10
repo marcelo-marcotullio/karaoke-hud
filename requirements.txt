@@ -1,0 +1,5 @@
+sounddevice
+soundfile
+requests
+shazamio==0.9.0
+pywebview==6.2.1
