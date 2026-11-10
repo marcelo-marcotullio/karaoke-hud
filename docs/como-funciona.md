@@ -1,6 +1,6 @@
 # Como funciona
 
-O fluxo da v0.1 é linear. Cada etapa também roda sozinha, com o venv ativo.
+O fluxo da v0.2 é linear. Cada etapa também roda sozinha, com o venv ativo.
 
 ```text
 microfone → sample.wav → artista, título, posição → letra LRC → linha na tela
@@ -35,7 +35,7 @@ A saída, quando há match, é `artista - título (posição na música: N.Ns)`.
 
 ## 3. Buscar a letra
 
-`get_lyrics.py` consulta `https://lrclib.net/api/search` com o User-Agent `karaoke-hud v0.1`. Prefere o resultado que traz `syncedLyrics`. Se o título com parênteses não achar nada, busca de novo sem o trecho entre parênteses ou colchetes.
+`get_lyrics.py` consulta `https://lrclib.net/api/search` com o User-Agent `karaoke-hud v0.2`. O app pode gravar de um microfone escolhido no menu; `record.py` sozinho continua na entrada padrão. Prefere o resultado que traz `syncedLyrics`. Se o título com parênteses não achar nada, busca de novo sem o trecho entre parênteses ou colchetes.
 
 ```bash
 python get_lyrics.py "Artista" "Título"
@@ -49,9 +49,15 @@ Os dois argumentos vão juntos. Sem eles, o script usa Arch Enemy / Symphony of 
 
 `app.py` junta as três etapas. Enquanto grava e reconhece, não desenha a letra. Com linhas sincronizadas, mostra a anterior, a atual e a próxima. Sem letra utilizável, mostra a frase de erro e esconde.
 
-A janela é transparente, sem borda, sempre por cima, e nasce oculta. O ícone da barra de menus é o `iconTemplate.png`, 18×18 pontos, marcado como template para o macOS pintar no claro e no escuro.
+A janela é transparente, sem borda, sempre por cima, e nasce oculta. Ela entra em todos os desktops (`CanJoinAllSpaces` e `FullScreenAuxiliary`). O ícone da barra de menus é o `iconTemplate.png`, 18×18 pontos, marcado como template. O ícone do Dock é essa mesma silhueta, em branco, num quadrado escuro, desenhado na abertura.
 
-O atalho global é um monitor do AppKit (`NSEvent`), criado na thread da interface. ⌘⇧K chama a mesma função do item **Ouvir**.
+O atalho é um monitor do AppKit (`NSEvent`), global e local, criado na thread da interface. A combinação salva chama a mesma função do item **Ouvir**. ⌘⇧↓ centraliza.
+
+No fim da letra, se **Ouvir a próxima sozinho** estiver ligado, o ciclo volta para o passo 1. Falha de reconhecimento ou faixa sem letra interrompe a cadeia.
+
+## Configuração
+
+`settings.py` lê e grava o JSON em `~/Library/Application Support/karaoke-hud/`. O menu da barra é só a vista dessa configuração: tamanho, cor, fundo, microfone, atalho, posição da janela e item de login. `python tests/test_settings.py` cobre o JSON, o atalho e o formato do menu sem abrir a janela.
 
 ## Testar uma etapa sem abrir o HUD
 

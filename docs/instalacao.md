@@ -31,8 +31,14 @@ O pacote não é assinado. Na primeira abertura o macOS pode recusar. Confirme e
 
 **Microfone.** Na primeira gravação o sistema pede acesso ao microfone. Sem isso a identificação não tem áudio.
 
-**Acessibilidade.** ⌘⇧K fora da janela do app usa um monitor global de teclado. O macOS só entrega esse monitor se o programa que lançou o Python estiver em Ajustes do Sistema, Privacidade e Segurança, Acessibilidade. Sem essa permissão o terminal imprime `Atalho global indisponível` e o atalho de fora não dispara. **Ouvir**, no ícone da barra de menus, continua funcionando.
+**Acessibilidade.** O atalho, fora da janela do app, usa um monitor global de teclado. O macOS só entrega esse monitor se o programa que lançou o Python estiver em Ajustes do Sistema, Privacidade e Segurança, Acessibilidade. Sem essa permissão o terminal imprime `Atalho global indisponível` e o atalho de fora não dispara. **Ouvir**, no ícone da barra de menus, continua funcionando.
+
+## Configuração e início de sessão
+
+As escolhas do menu ficam em `~/Library/Application Support/karaoke-hud/config.json`. Esse arquivo não entra no git.
+
+**Abrir ao entrar** grava um LaunchAgent em `~/Library/LaunchAgents/br.ia.karaoke-hud.plist`. Ele aponta para o `venv` e o `app.py` desta pasta e só vale no próximo login. Desligar a opção apaga o plist. O log dessa abertura, se houver, fica em `~/Library/Application Support/karaoke-hud/launchd.log`.
 
 ## O que não entra no git
 
-`.env`, `venv/` e `*.wav` estão no `.gitignore`. `sample.wav` é a gravação local da última escuta. A v0.1 não lê chave de API: o reconhecimento vai pelo shazamio, sem token.
+`.env`, `venv/` e `*.wav` estão no `.gitignore`. `sample.wav` é a gravação local da última escuta. O reconhecimento vai pelo shazamio, sem token.

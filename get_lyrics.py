@@ -3,7 +3,7 @@ import sys
 
 import requests
 
-USER_AGENT = "karaoke-hud v0.1"
+USER_AGENT = "karaoke-hud v0.2"
 SEARCH_URL = "https://lrclib.net/api/search"
 LRC_LINE = re.compile(r"\[(\d+):(\d+(?:\.\d+)?)\](.*)")
 
